@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Menu - Caffe Pilipino</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root { 
+      --primary-dark: #3e2a1c; 
+      --primary-medium: #5c4033; 
+      --accent: #d6b98c; 
+      --bg-light: #fdfaf5; 
+      --text-light: #f9f5ef; 
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: 'Lato', sans-serif; 
+      background-color: var(--bg-light); 
+      color: var(--primary-dark); 
+      line-height: 1.7; 
+      overflow-x: hidden; /* Fixes "squishy" animation bug */
+    }
+
+    /* Header & Navigation (Consistent) */
+    header { font-family: 'Playfair Display', serif; background: linear-gradient(to right, #5c4033, #3e2a1c); color: #f9f5ef; text-align: center; padding: 2.5rem 1rem 1.5rem; border-bottom: 4px solid var(--accent); }
+    .logo-title-container { display: flex; justify-content: center; align-items: center; gap: 1rem; }
+    .header-logo { height: 100px; width: auto; }
+    header h1 { font-size: 3.5rem; }
+    nav { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; background: #4b2f24; padding: 1rem 0; border-bottom: 2px solid #a67c52; position: sticky; top: 0; z-index: 100; }
+    nav a { color: #f6e7cf; text-decoration: none; font-size: 1.2rem; padding: 0.6rem 1.2rem; border-radius: 30px; transition: all 0.3s ease; }
+    nav a:hover, nav a.active { background-color: var(--accent); color: var(--primary-dark); font-weight: bold; }
+    
+    /* Menu Page Layout */
+    .menu-container { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; }
+    .title-wrapper { text-align: center; margin-bottom: 2.5rem; }
+    .menu-category-title { font-family: 'Playfair Display', serif; font-size: 2.8rem; text-align: center; color: var(--primary-medium); border-bottom: 2px solid var(--accent); padding-bottom: 0.5rem; display: inline-block; }
+    .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2.5rem; }
+    
+    /* Menu Card Styling */
+    .menu-item { background: #fff; border: 1px solid #e7d8c9; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.07); overflow: hidden; display: flex; flex-direction: column; }
+    .menu-item img { width: 100%; height: 200px; object-fit: cover; }
+    .menu-item-content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
+    .menu-item h3 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin-bottom: 1rem; }
+    .details-btn { font-family: 'Lato', sans-serif; background-color: var(--primary-medium); color: var(--text-light); border: none; padding: 0.7rem 1.5rem; border-radius: 20px; cursor: pointer; margin-top: auto; transition: background-color 0.3s; font-size: 1rem; font-weight: bold; }
+    .details-btn:hover { background-color: var(--primary-dark); }
+    
+    /* Modal (Pop-up) Styles */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 1000; opacity: 0; transition: opacity 0.3s ease; }
+    .modal-overlay.show { display: flex; opacity: 1; }
+    .modal-content { background: var(--bg-light); padding: 2rem; border-radius: 15px; max-width: 550px; width: 90%; position: relative; text-align: center; transform: scale(0.95); transition: transform 0.3s ease; }
+    .modal-overlay.show .modal-content { transform: scale(1); }
+    .modal-content img { width: 100%; height: 250px; object-fit: cover; border-radius: 10px; margin-bottom: 1rem; }
+    .modal-content h3 { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--primary-dark); }
+    .modal-content .description { margin: 1rem 0; font-size: 1.1rem; line-height: 1.6; }
+    .modal-content .price { font-weight: bold; font-size: 1.5rem; color: var(--primary-medium); margin: 1.5rem 0; }
+    .modal-close { position: absolute; top: 10px; right: 15px; font-size: 2.5rem; font-weight: bold; color: #aaa; cursor: pointer; border: none; background: none; transition: color 0.3s; }
+    .modal-close:hover { color: var(--primary-dark); }
+    
+    /* CTA Section */
+    .cta-section { text-align: center; padding: 4rem 2rem; background-color: #f8f3ea; }
+    .cta-section h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 1.5rem; }
+    .cta-button { display: inline-block; background-color: var(--accent); color: var(--primary-dark); padding: 1rem 3rem; font-size: 1.2rem; font-weight: bold; text-decoration: none; border-radius: 50px; transition: all 0.3s ease; }
+    .cta-button:hover { transform: scale(1.05); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+    
+    /* Footer */
+    footer { background-color: var(--primary-dark); color: #e6d3b3; text-align: center; padding: 1rem; }
+    
+    /* Animation */
+    .hidden { opacity: 0; transform: translateY(30px); transition: all 1s ease-out; }
+    .show { opacity: 1; transform: translateY(0); }
+    .menu-item { transition-delay: var(--delay); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-title-container">
+      <img src="logo.png" alt="Caffe Pilipino Logo" class="header-logo">
+      <h1>CAFFE PILIPINO</h1>
+    </div>
+  </header>
+  <nav>
+    <a href="index.html">HOME</a>
+    <a href="menu.html" class="active">MENU</a>
+    <a href="contact.html">CONTACT</a>
+    <a href="order.html">ORDER NOW</a>
+  </nav>
+
+  <main class="menu-container">
+    <div class="title-wrapper hidden">
+      <h2 class="menu-category-title">Coffee & Lattes</h2>
+    </div>
+    <div class="menu-grid" id="coffee-grid"></div>
+    
+    <div class="title-wrapper hidden" style="margin-top: 4rem;">
+      <h2 class="menu-category-title">Pastries & Cakes</h2>
+    </div>
+    <div class="menu-grid" id="pastry-grid"></div>
+  </main>
+
+  <section class="cta-section hidden">
+    <h2>Ready to Order?</h2>
+    <a href="order.html" class="cta-button">Click Here to Place Your Order</a>
+  </section>
+  
+  <footer>
+    <p>© 2025 Caffe Pilipino. All rights reserved.</p>
+  </footer>
+  
+  <script>
+    const menuItemsData = [
+      // Coffee & Lattes
+      { id: 'c1', name: 'Classic Barako', price: 120, category: 'coffee', img: 'classic_barako.jpg', desc: "A bold and powerful brew celebrating the true taste of Filipino coffee tradition. Sourced from the highlands of Batangas, it's perfect for those who love an unapologetic cup." },
+      { id: 'c2', name: 'Caramel Macchiato', price: 160, category: 'coffee', img: 'caramel_macchiato.jpg', desc: "A beautiful layered beverage of steamed milk, rich espresso, and a sweet caramel drizzle. It's the perfect harmony of strong and sweet, an all-time favorite." },
+      { id: 'c3', name: 'Spanish Latte', price: 150, category: 'coffee', img: 'spanish_latte.jpg', desc: "Our house espresso combined with steamed milk and a touch of sweetened condensed milk, creating a creamy texture and a gentle sweetness that's simply irresistible." },
+      { id: 'c4', name: 'Vanilla Latte', price: 150, category: 'coffee', img: 'vanilla_latte.jpg', desc: "Smooth espresso combined with creamy steamed milk and a classic vanilla flavor for a sweet, comforting latte." },
+      { id: 'c5', name: 'Hazel Nut Brew', price: 155, category: 'coffee', img: 'hazel_nut_brew.jpg', desc: "A rich and nutty blend for your cozy mornings, with the comforting aroma of toasted hazelnuts." },
+      { id: 'c6', name: 'Mocha Espresso', price: 160, category: 'coffee', img: 'mocha_espresso.jpg', desc: "A delightful, chocolatey twist on the classic espresso for when your sweet cravings call." },
+      { id: 'c7', name: 'Iced Americano', price: 125, category: 'coffee', img: 'iced_americano.jpg', desc: "Chilled espresso shots topped with water and served over ice. It’s light, bold, and incredibly refreshing." },
+      { id: 'c8', name: 'Strawberry Cream Latte', price: 170, category: 'coffee', img: 'strawberry_cream_latte.jpg', desc: "Velvety steamed milk with a burst of sweet strawberry flavor, layered with a smooth espresso base." },
+      { id: 'c9', name: 'Matcha Espresso Fusion', price: 170, category: 'coffee', img: 'matcha_espresso_fusion.jpg', desc: "Earthy, high-quality matcha meets robust espresso in this beautifully layered and energizing drink." },
+      { id: 'c10', name: 'Choco Hazelnut Mocha', price: 175, category: 'coffee', img: 'choco_hazelnut_mocha.jpg', desc: "The ultimate indulgence: decadent chocolate and roasted hazelnut flavors blended with bold espresso and steamed milk." },
+      { id: 'c11', name: 'Vietnamese Iced Coffee', price: 145, category: 'coffee', img: 'vietnamese_iced_coffee.jpg', desc: "Strong coffee brewed using a traditional drip filter, mixed with sweetened condensed milk, and poured over ice for a potent and sweet kick." },
+      // Pastries & Cakes
+      { id: 'p1', name: 'Ube Lava Cake', price: 180, category: 'pastry', img: 'ube_lava_cake.jpg', desc: "A uniquely Filipino dessert. This warm, delicate cake gives way to a molten river of rich ube (purple yam) filling. It's decadent, comforting, and unforgettable." },
+      { id: 'p2', name: 'Mango Float Croissant', price: 150, category: 'pastry', img: 'mango_float_croissant.jpg', desc: "We've turned a classic Filipino dessert into a French delight! A flaky, buttery croissant filled with a creamy mix of mango, graham crackers, and cream cheese." },
+      { id: 'p3', name: 'Coconut Tres Leches', price: 200, category: 'pastry', img: 'coconut_tres_leches_cake.jpg', desc: "A light sponge cake soaked in a trio of sweet milks, finished with a luscious whipped cream topping and toasted coconut flakes for a tropical twist." },
+		  { id: 'p4', name: 'Leche Flan Torte', price: 220, category: 'pastry', img: 'leche_flan_torte.jpg', desc: "An impossibly creamy and dense whole Leche Flan layered over a light chiffon cake, bringing together two Filipino favorites in one spectacular slice." },
+      { id: 'p5', name: 'Classic Sans Rival', price: 190, category: 'pastry', img: 'sans_rival.jpg', desc: "Layers of crisp, chewy cashew-meringue wafers held together by a rich, decadent French buttercream. A timeless classic that's luxuriously smooth and crunchy." },
+      { id: 'p6', name: 'Calamansi Key Lime Pie', price: 180, category: 'pastry', img: 'calamansi_pie.jpg', desc: "Our version of a classic! A zesty, tangy, and sweet custard made from fresh Calamansi (Filipino lime), set in a graham crust and topped with toasted meringue." },
+      { id: 'p7', name: 'Tablea Brownie with Sea Salt', price: 95, category: 'pastry', img: 'tablea_brownie.jpg', desc: "A rich, dark, and intensely fudgy brownie made with premium Filipino tablea chocolate for a deep cacao flavor, finished with a sprinkle of flaky sea salt." },
+      { id: 'p8', name: 'Pandan Cheesecake', price: 175, category: 'pastry', img: 'pandan_cheesecake.jpg', desc: "A creamy New York-style cheesecake infused with the delicate, fragrant aroma of Pandan leaves, all resting on a delicious coconut-biscuit base." },
+      { id: 'p9', name: 'Premium Ensaymada', price: 110, category: 'pastry', img: 'ensaymada.jpg', desc: "An exceptionally soft and buttery brioche bun, coiled and baked to perfection, then topped with sweet buttercream and a generous amount of shaved Queso de Bola." }
+   ];
+    // --- The rest of the script is for creating the cards and modals ---
+    const coffeeGrid = document.getElementById('coffee-grid');
+    const pastryGrid = document.getElementById('pastry-grid');
+    menuItemsData.forEach(item => {
+      const grid = item.category === 'coffee' ? coffeeGrid : pastryGrid;
+      const menuItemEl = document.createElement('div');
+      menuItemEl.className = 'menu-item hidden';
+      menuItemEl.innerHTML = `<img src="${item.img}" alt="${item.name}"><div class="menu-item-content"><h3>${item.name}</h3><button class="details-btn" data-modal-target="#modal-${item.id}">View Details</button></div>`;
+      grid.appendChild(menuItemEl);
+      const modalEl = document.createElement('div');
+      modalEl.id = `modal-${item.id}`;
+      modalEl.className = 'modal-overlay';
+      modalEl.innerHTML = `<div class="modal-content"><button class="modal-close">×</button><img src="${item.img}" alt="${item.name}"><h3>${item.name}</h3><p class="description">${item.desc}</p><p class="price">₱${item.price.toFixed(2)}</p><a href="order.html" class="details-btn">Order This</a></div>`;
+      document.body.appendChild(modalEl);
+    });
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          const delay = (index % 4) * 100;
+          entry.target.style.transitionDelay = `${delay}ms`;
+          entry.target.classList.add('show');
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.hidden').forEach(el => observer.observe(el));
+    const openModalButtons = document.querySelectorAll('[data-modal-target]');
+    const closeModalButtons = document.querySelectorAll('.modal-close');
+    const overlays = document.querySelectorAll('.modal-overlay');
+    openModalButtons.forEach(button => button.addEventListener('click', () => openModal(document.querySelector(button.dataset.modalTarget))));
+    overlays.forEach(overlay => overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(overlay); }));
+    closeModalButtons.forEach(button => button.addEventListener('click', () => closeModal(button.closest('.modal-overlay'))));
+    function openModal(modal) { if (modal) modal.classList.add('show'); }
+    function closeModal(modal) { if (modal) modal.classList.remove('show'); }
+  </script>
+</body>
+</html>

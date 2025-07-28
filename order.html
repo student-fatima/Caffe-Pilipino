@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Now - Caffe Pilipino</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root { 
+      --primary-dark: #3e2a1c; 
+      --primary-medium: #5c4033; 
+      --accent: #d6b98c; 
+      --bg-light: #fdfaf5; 
+      --text-light: #f9f5ef; 
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { 
+      font-family: 'Lato', sans-serif; 
+      background-color: var(--bg-light); 
+      color: var(--primary-dark); 
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Header & Navigation (Consistent) */
+    header { font-family: 'Playfair Display', serif; background: linear-gradient(to right, #5c4033, #3e2a1c); color: #f9f5ef; text-align: center; padding: 2.5rem 1rem 1.5rem; border-bottom: 4px solid var(--accent); }
+    .logo-title-container { display: flex; justify-content: center; align-items: center; gap: 1rem; }
+    .header-logo { height: 100px; width: auto; }
+    header h1 { font-size: 3.5rem; }
+    nav { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; background: #4b2f24; padding: 1rem 0; border-bottom: 2px solid #a67c52; position: sticky; top: 0; z-index: 100; }
+    nav a { color: #f6e7cf; text-decoration: none; font-size: 1.2rem; padding: 0.6rem 1.2rem; border-radius: 30px; transition: all 0.3s ease; }
+    nav a:hover, nav a.active { background-color: var(--accent); color: var(--primary-dark); font-weight: bold; }
+    
+    /* Order Page Layout */
+    .order-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; max-width: 1400px; margin: 2rem auto; padding: 0 2rem; align-items: start; }
+    .menu-column h2, .order-column h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--primary-medium); margin-bottom: 1.5rem; border-bottom: 2px solid var(--accent); padding-bottom: 0.5rem; }
+    .menu-category { margin-bottom: 3rem; }
+    .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+    .menu-item { background: #fff; border: 1px solid #e7d8c9; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: flex; flex-direction: column; overflow: hidden; }
+    .menu-item img { width: 100%; height: 180px; object-fit: cover; }
+    .menu-item-content { padding: 1rem; display: flex; flex-direction: column; flex-grow: 1; }
+    .menu-item h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin: 0 0 0.5rem; }
+    .menu-item .description { font-size: 0.9rem; flex-grow: 1; margin-bottom: 1rem; }
+    .menu-item .price { font-weight: bold; font-size: 1.1rem; }
+    .add-to-order-btn { background-color: var(--primary-medium); color: var(--text-light); border: none; padding: 0.6rem 1rem; border-radius: 20px; cursor: pointer; margin-top: auto; transition: background-color 0.3s; }
+    .add-to-order-btn:hover { background-color: var(--primary-dark); }
+    
+    /* Order Summary Column (Cart) */
+    .order-column { position: sticky; top: 90px; }
+    .order-summary { background: #fff; padding: 1.5rem; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    #cart-items { list-style: none; padding: 0; max-height: 30vh; overflow-y: auto; border-bottom: 1px solid #eee; margin-bottom: 1rem; }
+    .cart-empty-message { text-align: center; padding: 2rem 0; color: #888; font-style: italic; }
+    .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; }
+    .cart-item:not(:last-child) { border-bottom: 1px solid #eee; }
+    .cart-item-details { font-size: 0.9rem; }
+    .cart-item-details span { display: block; color: #777; }
+    .cart-item-controls { display: flex; align-items: center; }
+    .cart-item-controls button { background: none; border: 1px solid #ccc; cursor: pointer; width: 25px; height: 25px; border-radius: 50%; }
+    .cart-item-controls .quantity { padding: 0 0.75rem; }
+    .cart-total { font-weight: bold; font-size: 1.5rem; text-align: right; padding-top: 1rem; border-top: 2px solid var(--primary-dark); }
+    
+    /* Customer Form */
+    .form-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-top: 1.5rem; margin-bottom: 1rem; color: var(--primary-dark); }
+    #customer-form label { font-weight: bold; display: block; margin-bottom: 0.5rem; }
+    #customer-form input, #customer-form select, #customer-form textarea { width: 100%; padding: 0.75rem; margin-bottom: 1rem; border: 1px solid #c7a97e; border-radius: 10px; background-color: #fffaf2; font-family: 'Lato', sans-serif; font-size: 1rem; }
+    #place-order-btn { width: 100%; background-color: var(--accent); color: var(--primary-dark); padding: 1rem; font-size: 1.2rem; font-weight: bold; border: none; border-radius: 50px; cursor: pointer; transition: all 0.3s; }
+    #place-order-btn:hover { background-color: var(--primary-medium); color: var(--text-light); }
+    #success-message { text-align: center; padding: 2rem; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 10px; display: none; }
+    @media (max-width: 992px) { .order-layout { grid-template-columns: 1fr; } .order-column { position: static; height: auto; margin-top: 2rem; } }
+
+    /* Footer */
+    footer { 
+        background-color: var(--primary-dark); 
+        color: #e6d3b3; 
+        text-align: center; 
+        padding: 1rem; 
+        margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-title-container">
+      <img src="logo.png" alt="Caffe Pilipino Logo" class="header-logo">
+      <h1>CAFFE PILIPINO</h1>
+    </div>
+  </header>
+  <nav>
+    <a href="index.html">HOME</a>
+    <a href="menu.html">MENU</a>
+    <a href="contact.html">CONTACT</a>
+    <a href="order.html" class="active">ORDER NOW</a>
+  </nav>
+
+  <main class="order-layout">
+    <div class="menu-column">
+      <section id="coffee-menu" class="menu-category"><h2>Coffee & Lattes</h2><div class="menu-grid"></div></section>
+      <section id="pastry-menu" class="menu-category"><h2>Pastries & Cakes</h2><div class="menu-grid"></div></section>
+    </div>
+    <aside class="order-column">
+      <div class="order-summary">
+        <h2>Your Order</h2>
+        <ul id="cart-items"><p class="cart-empty-message">Your cart is empty.</p></ul>
+        <div id="cart-total" class="cart-total">Total: ₱0.00</div>
+        
+        <h3 class="form-title">Your Details</h3>
+        <form id="customer-form">
+          <label for="customer-name">Full Name:</label>
+          <input type="text" id="customer-name" name="name" required>
+          <label for="customer-phone">Phone Number:</label>
+          <input type="tel" id="customer-phone" name="phone" required>
+          <label for="order-type">Order Type:</label>
+          <select id="order-type" name="Order Type" required><option value="">Select an option...</option><option value="Pickup">For Pickup</option><option value="Delivery">For Delivery</option></select>
+          <label for="order-notes">Notes / Delivery Address:</label>
+          <textarea id="order-notes" name="notes" placeholder="Type your full delivery address..." rows="3"></textarea>
+          <input type="hidden" id="order-summary-input" name="Order Summary">
+          <button type="submit" id="place-order-btn">Place Your Order</button>
+        </form>
+        <div id="success-message"><h3>Thank You!</h3><p>Your order has been sent successfully. We'll contact you shortly to confirm.</p></div>
+      </div>
+    </aside>
+  </main>
+  
+  <footer>
+    <p>© 2025 Caffe Pilipino. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    const menuData = [
+      { id: 'c1', name: 'Classic Barako', price: 120, category: 'coffee', img: 'classic_barako.jpg', desc: 'Bold and native taste.' },
+      { id: 'c2', name: 'Caramel Macchiato', price: 160, category: 'coffee', img: 'caramel_macchiato.jpg', desc: 'Layers of espresso and caramel.' },
+      { id: 'c3', name: 'Spanish Latte', price: 150, category: 'coffee', img: 'spanish_latte.jpg', desc: 'Creamy latte with condensed milk.' },
+      { id: 'c4', name: 'Vanilla Latte', price: 150, category: 'coffee', img: 'vanilla_latte.jpg', desc: 'Espresso with vanilla sweetness.' },
+      { id: 'c5', name: 'Hazel Nut Brew', price: 155, category: 'coffee', img: 'hazel_nut_brew.jpg', desc: 'Rich and nutty for cozy mornings.' },
+      { id: 'c6', name: 'Mocha Espresso', price: 160, category: 'coffee', img: 'mocha_espresso.jpg', desc: 'A chocolatey twist for cravings.' },
+      { id: 'c7', name: 'Iced Americano', price: 125, category: 'coffee', img: 'iced_americano.jpg', desc: 'Light, bold, and refreshing.' },
+      { id: 'c8', name: 'Strawberry Cream Latte', price: 170, category: 'coffee', img: 'strawberry_cream_latte.jpg', desc: 'Velvety milk with a strawberry burst.' },
+      { id: 'c9', name: 'Matcha Espresso Fusion', price: 170, category: 'coffee', img: 'matcha_espresso_fusion.jpg', desc: 'Earthy matcha meets robust espresso.' },
+      { id: 'c10', name: 'Choco Hazelnut Mocha', price: 175, category: 'coffee', img: 'choco_hazelnut_mocha.jpg', desc: 'Decadent chocolate and hazelnut.' },
+      { id: 'c11', name: 'Vietnamese Iced Coffee', price: 145, category: 'coffee', img: 'vietnamese_iced_coffee.jpg', desc: 'Strong, sweet, and potent.' },
+      { id: 'p1', name: 'Ube Lava Cake', price: 180, category: 'pastry', img: 'ube_lava_cake.jpg', desc: 'Warm cake with a molten ube center.' },
+      { id: 'p2', name: 'Mango Float Croissant', price: 150, category: 'pastry', img: 'mango_float_croissant.jpg', desc: 'Flaky croissant, mango graham filling.' },
+      { id: 'p3', name: 'Coconut Tres Leches', price: 200, category: 'pastry', img: 'coconut_tres_leches_cake.jpg', desc: 'Sponge cake soaked in three milks.' },
+    ];
+    let cart = [];
+    const coffeeGrid = document.querySelector('#coffee-menu .menu-grid');
+    const pastryGrid = document.querySelector('#pastry-menu .menu-grid');
+    const cartItemsEl = document.getElementById('cart-items');
+    const cartTotalEl = document.getElementById('cart-total');
+    const orderForm = document.getElementById('customer-form');
+    function renderMenu() { menuData.forEach(item => { const grid = item.category === 'coffee' ? coffeeGrid : pastryGrid; const menuItemEl = document.createElement('div'); menuItemEl.className = 'menu-item'; menuItemEl.innerHTML = `<img src="${item.img}" alt="${item.name}"><div class="menu-item-content"><h3>${item.name}</h3><p class="description">${item.desc}</p><p class="price">₱${item.price.toFixed(2)}</p><button class="add-to-order-btn" data-id="${item.id}">Add to Order</button></div>`; grid.appendChild(menuItemEl); }); }
+    function addToCart(itemId) { const item = menuData.find(i => i.id === itemId); const cartItem = cart.find(i => i.id === itemId); if (cartItem) { cartItem.quantity++; } else { cart.push({ ...item, quantity: 1 }); } renderCart(); }
+    function updateQuantity(itemId, change) { const cartItem = cart.find(i => i.id === itemId); if (cartItem) { cartItem.quantity += change; if (cartItem.quantity <= 0) { cart = cart.filter(i => i.id !== itemId); } } renderCart(); }
+    function renderCart() { cartItemsEl.innerHTML = ''; if (cart.length === 0) { cartItemsEl.innerHTML = '<p class="cart-empty-message">Your cart is empty.</p>'; cartTotalEl.innerText = 'Total: ₱0.00'; return; } let total = 0; cart.forEach(item => { const li = document.createElement('li'); li.className = 'cart-item'; li.innerHTML = `<div class="cart-item-details"><strong>${item.name}</strong><span>₱${item.price.toFixed(2)}</span></div><div class="cart-item-controls"><button data-id="${item.id}" class="quantity-change" data-change="-1">-</button><span class="quantity">${item.quantity}</span><button data-id="${item.id}" class="quantity-change" data-change="1">+</button></div>`; cartItemsEl.appendChild(li); total += item.price * item.quantity; }); cartTotalEl.innerText = `Total: ₱${total.toFixed(2)}`; document.getElementById('order-summary-input').value = formatOrderSummaryForSubmission(); }
+    function formatOrderSummaryForSubmission() { let summary = "Order Details:\n"; let total = 0; cart.forEach(item => { summary += `${item.quantity} x ${item.name} - ₱${(item.price * item.quantity).toFixed(2)}\n`; }); summary += `\nTotal: ₱${cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}`; return summary; }
+    document.addEventListener('DOMContentLoaded', renderMenu);
+    document.querySelector('.menu-column').addEventListener('click', (e) => { if (e.target.classList.contains('add-to-order-btn')) { addToCart(e.target.dataset.id); } });
+    cartItemsEl.addEventListener('click', (e) => { if (e.target.classList.contains('quantity-change')) { const itemId = e.target.dataset.id; const change = parseInt(e.target.dataset.change); updateQuantity(itemId, change); } });
+    orderForm.addEventListener('submit', async function(e) { e.preventDefault(); if (cart.length === 0) { alert("Your cart is empty. Please add items to your order."); return; } const formData = new FormData(orderForm); try { const response = await fetch(orderForm.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } }); if (response.ok) { document.getElementById('customer-form').style.display = 'none'; document.querySelector('.form-title').style.display = 'none'; document.getElementById('success-message').style.display = 'block'; cart = []; renderCart(); } else { alert('There was a problem submitting your order. Please try again.'); } } catch (error) { alert('There was a network error. Please check your connection and try again.'); } });
+    // VERY IMPORTANT: Replace this with your actual Formspree endpoint
+    orderForm.action = "https://formspree.io/f/mkgzbjaw";
+  </script>
+</body>
+</html>

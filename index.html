@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Caffe Pilipino - Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root { 
+      --primary-dark: #3e2a1c; 
+      --primary-medium: #5c4033; 
+      --accent: #d6b98c; 
+      --bg-light: #fdfaf5; 
+      --text-light: #f9f5ef; 
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: 'Lato', sans-serif; 
+      background-color: var(--bg-light); 
+      color: var(--primary-dark); 
+      line-height: 1.7;
+      overflow-x: hidden; 
+    }
+
+    /* Header & Navigation */
+    header { 
+      font-family: 'Playfair Display', serif; 
+      background: linear-gradient(to right, #5c4033, #3e2a1c); 
+      color: #f9f5ef; 
+      text-align: center; 
+      /* --- THIS PADDING IS NOW CORRECT AND CONSISTENT --- */
+      padding: 2.5rem 1rem 1.5rem; 
+      border-bottom: 4px solid var(--accent); 
+    }
+    .logo-title-container { display: flex; justify-content: center; align-items: center; gap: 1rem; }
+    .header-logo { height: 100px; width: auto; }
+    header h1 { font-size: 3.5rem;}
+    nav { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; background: #4b2f24; padding: 1rem 0; border-bottom: 2px solid #a67c52; position: sticky; top: 0; z-index: 100; }
+    nav a { color: #f6e7cf; text-decoration: none; font-size: 1.2rem; padding: 0.6rem 1.2rem; border-radius: 30px; transition: all 0.3s ease; }
+    nav a:hover, nav a.active { background-color: var(--accent); color: var(--primary-dark); font-weight: bold; }
+    
+    /* Common Section Styles */
+    .hero { font-family: 'Playfair Display', serif; background: linear-gradient(to bottom, #fff9f0, #e9dac3); text-align: center; padding: 4rem 2rem; font-size: 2.2rem; }
+    .section-container { padding: 5rem 2rem; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 2.8rem; text-align: center; color: var(--primary-medium); margin-bottom: 3rem; }
+    
+    /* About (Our Story) Section */
+    .about-grid { display: grid; grid-template-columns: 1fr; gap: 3rem; align-items: center; max-width: 1100px; margin: 0 auto; }
+    @media (min-width: 768px) { .about-grid { grid-template-columns: repeat(2, 1fr); } }
+    .about-image img { width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+    .about-text h3 { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-bottom: 1rem; }
+    
+    /* Video Section - Spacing Fixed */
+    .video-section {
+        background-color: #f8f3ea;
+    }
+    .video-wrapper { max-width: 900px; margin: 0 auto; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+    .video-wrapper video { width: 100%; display: block; }
+
+    /* Best Sellers - Enhanced Cards */
+    .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2.5rem; max-width: 1200px; margin: 0 auto; }
+    .menu-item { background: #fff; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.07); overflow: hidden; position: relative; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .menu-item:hover { transform: translateY(-8px); box-shadow: 0 12px 25px rgba(0,0,0,0.1); }
+    .menu-item img { width: 100%; height: 280px; object-fit: cover; }
+    .menu-item-title { font-family: 'Playfair Display', serif; font-size: 1.6rem; padding: 1.5rem; }
+    .menu-item-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(62, 42, 28, 0.9); color: white; padding: 1.5rem; transform: translateY(100%); transition: transform 0.4s ease-in-out; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; }
+    .menu-item:hover .menu-item-overlay { transform: translateY(0); }
+    .overlay-button { color: var(--primary-dark); background: var(--accent); text-decoration: none; font-weight: bold; padding: 0.8rem 1.5rem; border-radius: 30px; margin-top: 1rem; transition: background-color 0.3s; }
+    .overlay-button:hover { background-color: #fff; }
+
+    /* Call to Action Section */
+    .cta-section { background: var(--primary-dark); color: var(--text-light); text-align: center; }
+    .cta-section h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 2rem; }
+    .btn { display: inline-block; text-decoration: none; padding: 0.8rem 2.5rem; border-radius: 30px; font-size: 1.1rem; font-weight: bold; transition: all 0.3s ease; }
+    .btn-primary { background-color: var(--accent); color: var(--primary-dark); }
+    .btn-primary:hover { background-color: var(--text-light); transform: scale(1.05); }
+    
+    /* Footer */
+    footer { background-color: #2e1e16; color: #e6d3b3; text-align: center; padding: 1rem; }
+    
+    /* Animation */
+    .hidden, .slide-in-left, .slide-in-right { opacity: 0; transition: all 1s ease-out; }
+    .hidden { transform: translateY(30px); }
+    .slide-in-left { transform: translateX(-50px); }
+    .slide-in-right { transform: translateX(50px); }
+    .show { opacity: 1; transform: translateY(0) translateX(0); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-title-container">
+      <img src="logo.png" alt="Caffe Pilipino Logo" class="header-logo">
+      <h1>CAFFE PILIPINO</h1>
+    </div>
+  </header>
+  <nav>
+    <a href="index.html" class="active">HOME</a>
+    <a href="menu.html">MENU</a>
+    <a href="contact.html">CONTACT</a>
+    <a href="order.html">ORDER NOW</a>
+  </nav>
+
+  <section class="hero hidden">
+    Welcome to <strong>Caffe Pilipino</strong> — Where Every Cup Feels Like Home
+  </section>
+
+  <section class="section-container">
+    <div class="about-grid">
+      <div class="about-image slide-in-left">
+        <img src="cafe_interior.png" alt="Cozy interior of Caffe Pilipino">
+      </div>
+      <div class="about-text slide-in-right">
+        <h3>Our Story</h3>
+        <p>Inspired by the rich coffee heritage of the Philippines, we source the finest local beans and blend them with passion. Our mission is to create a warm, welcoming space where every cup served feels like a hug from home.</p>
+      </div>
+    </div>
+  </section>
+  
+  <section class="video-section section-container">
+    <h2 class="section-title hidden">Experience Our Vibe</h2>
+    <div class="video-wrapper hidden">
+        <video controls autoplay muted loop playsinline>
+            <source src="COFFEE.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+  </section>
+
+  <section class="section-container">
+    <h2 class="section-title hidden">Our Best Sellers</h2>
+    <div class="menu-grid">
+      <div class="menu-item hidden">
+        <img src="classic_barako.jpg" alt="Classic Barako Coffee">
+        <h3 class="menu-item-title">Classic Barako</h3>
+        <div class="menu-item-overlay">
+            <p>Bold, authentic, and powerful.</p>
+            <a href="menu.html" class="overlay-button">View Details</a>
+        </div>
+      </div>
+      <div class="menu-item hidden">
+        <img src="spanish_latte.jpg" alt="Spanish Latte">
+        <h3 class="menu-item-title">Spanish Latte</h3>
+        <div class="menu-item-overlay">
+            <p>Creamy, sweet, and perfectly balanced.</p>
+            <a href="menu.html" class="overlay-button">View Details</a>
+        </div>
+      </div>
+      <div class="menu-item hidden">
+        <img src="ube_lava_cake.jpg" alt="Ube Lava Cake">
+        <h3 class="menu-item-title">Ube Lava Cake</h3>
+        <div class="menu-item-overlay">
+            <p>A warm, decadent, and unforgettable treat.</p>
+            <a href="menu.html" class="overlay-button">View Details</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section section-container hidden">
+      <h2>Ready to try it for yourself?</h2>
+      <a href="order.html" class="btn btn-primary">Order Now Online</a>
+  </section>
+  
+  <footer>
+    <p>© 2025 Caffe Pilipino. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.hidden, .slide-in-left, .slide-in-right').forEach(el => {
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
